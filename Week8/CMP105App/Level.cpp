@@ -6,6 +6,15 @@ Level::Level(sf::RenderWindow* hwnd, Input* in)
 	input = in;
 
 	// initialise game objects
+	bauncy.loadFromFile("gfx/Beach_Ball.png");
+	bob.setWindow(window);
+	bob.setPosition(100, 100);
+	bob.setTexture(&bauncy);
+
+	bib.setWindow(window);
+	bib.setPosition(300, 100);
+	bib.setTexture(&bauncy);
+
 
 }
 
@@ -23,14 +32,20 @@ void Level::handleInput(float dt)
 // Update game objects
 void Level::update(float dt)
 {
-	
+	if (Collision::checkBoundingCircle(&bob, &bib))
+	{
+		bob.setVelocity(-bob.getVelocity()); bib.setVelocity(-bib.getVelocity());
+	}
+	bob.update(dt);
+	bib.update(dt);
 }
 
 // Render level
 void Level::render()
 {
 	beginDraw();
-
+	window->draw(bob);
+	window->draw(bib);
 	endDraw();
 }
 
